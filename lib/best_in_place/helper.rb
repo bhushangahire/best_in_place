@@ -55,8 +55,10 @@ module BestInPlace
       out << " data-type='#{opts[:type]}'"
       out << " data-inner-class='#{opts[:inner_class]}'" if opts[:inner_class]
       out << " data-html-attrs='#{opts[:html_attrs].to_json}'" unless opts[:html_attrs].blank?
-      out << " data-original-content='#{attribute_escape(real_object.send(field))}'" if opts[:display_as] || opts[:display_with]
-      out << " data-value='#{attribute_escape(value)}'" if value
+      out << " data-original-content='#{attribute_escape(display_value)}'" if display_value
+      out << " data-original-content='#{attribute_escape(real_object.send(field))}'" if display_value.blank? and (opts[:display_as] || opts[:display_with])
+      out << " data-value='#{attribute_escape(display_value)}'" if display_value
+      out << " data-value='#{attribute_escape(value)}'" if display_value.blank? and value
 
       if opts[:data] && opts[:data].is_a?(Hash)
         opts[:data].each do |k, v|
